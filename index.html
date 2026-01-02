@@ -9,9 +9,24 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#0d9488',
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
-        .chart-wrapper { position: relative; width: 100%; height: 300px; }
+        .chart-wrapper { position: relative; width: 100%; height: 300px; max-height: 400px; }
         .nav-link.active { border-bottom: 2px solid #0d9488; color: #1e3a8a; font-weight: 700; }
         .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -19,76 +34,88 @@
 </head>
 <body class="text-slate-800 flex flex-col min-h-screen">
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
-                <div class="w-8 h-8 bg-[#1e3a8a] text-white rounded-lg flex items-center justify-center font-bold">A</div>
+                <div class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center font-bold">A</div>
                 <span class="font-bold text-xl text-slate-900">Lee Ara</span>
             </div>
-            <nav class="flex space-x-6">
-                <button onclick="navigateTo('home')" id="btn-home" class="nav-link text-sm active">Home</button>
-                <button onclick="navigateTo('olist')" id="btn-olist" class="nav-link text-sm text-slate-500">Olist Project</button>
-                <button onclick="navigateTo('tft')" id="btn-tft" class="nav-link text-sm text-slate-500">TFT Analysis</button>
+            <nav class="flex space-x-8">
+                <button onclick="navigateTo('home')" id="btn-home" class="nav-link px-1 py-2 text-sm font-medium active">Home</button>
+                <button onclick="navigateTo('olist')" id="btn-olist" class="nav-link px-1 py-2 text-sm font-medium">Olist Project</button>
+                <button onclick="navigateTo('tft')" id="btn-tft" class="nav-link px-1 py-2 text-sm font-medium">TFT Analysis</button>
             </nav>
         </div>
     </header>
 
-    <main id="app-container" class="flex-grow container mx-auto px-4 py-12">
-        <div id="view-home" class="animate-fade-in text-center max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">"이탈은 막는 것이 아니라,<br><span class="text-[#0d9488]">선택하는 것</span>입니다."</h1>
-            <p class="text-lg text-slate-600 mb-8">단순한 현상 분석을 넘어 비즈니스 임팩트를 만듭니다.</p>
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div id="view-home" class="animate-fade-in text-center max-w-3xl mx-auto mt-12 mb-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">"이탈은 막는 것이 아니라,<br><span class="text-secondary">선택하는 것</span>입니다."</h1>
+            <p class="text-lg text-slate-600 mb-8">데이터 시각화와 논리적 가설 검증을 통해 실질적인 비즈니스 임팩트를 만들어냅니다.</p>
             <div class="flex justify-center gap-4">
-                <button onclick="navigateTo('olist')" class="bg-[#1e3a8a] text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-900 transition shadow-lg">심화 프로젝트 보기</button>
-                <button onclick="navigateTo('tft')" class="bg-white text-slate-700 border border-slate-300 px-6 py-3 rounded-xl font-semibold hover:bg-slate-50 transition">기초 프로젝트 보기</button>
+                <button onclick="navigateTo('olist')" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold shadow-lg">심화 프로젝트 보기</button>
+                <button onclick="navigateTo('tft')" class="bg-white text-slate-700 border px-6 py-3 rounded-xl font-semibold">기초 프로젝트 보기</button>
             </div>
         </div>
 
-        <div id="view-olist" class="hidden animate-fade-in space-y-6">
-            <h2 class="text-3xl font-bold text-slate-900">Olist 판매자 이탈 리스크 모니터링</h2>
+        <div id="view-olist" class="hidden animate-fade-in space-y-8">
+            <div class="border-b pb-6">
+                <h2 class="text-3xl font-bold">Olist 이커머스 판매자 이탈 리스크 모니터링</h2>
+                <p class="text-slate-600 mt-2">데이터 전처리를 통해 용량을 98% 줄여 구현한 실시간 분석 대시보드입니다.</p>
+            </div>
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <h3 class="font-bold mb-4">📉 배송 지연과 평판의 관계 (임계점 분석)</h3>
                 <div class="chart-wrapper"><canvas id="olistChart"></canvas></div>
             </div>
         </div>
 
-        <div id="view-tft" class="hidden animate-fade-in space-y-6">
-            <h2 class="text-3xl font-bold text-slate-900">TFT 메타 승률 분석</h2>
+        <div id="view-tft" class="hidden animate-fade-in space-y-8">
+            <div class="border-b pb-6">
+                <h2 class="text-3xl font-bold">TFT 시즌3 메타 변동성 분석</h2>
+                <p class="text-slate-600 mt-2">챔피언 파워가 시너지보다 승률에 미치는 영향이 큼을 통계적으로 입증했습니다.</p>
+            </div>
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <h3 class="font-bold mb-4">📊 Meta Analysis: 승률 vs 픽률</h3>
                 <div class="chart-wrapper"><canvas id="tftChart"></canvas></div>
             </div>
         </div>
     </main>
 
+    <footer class="bg-white border-t py-8 mt-auto text-center">
+        <p class="text-slate-500 text-sm">Data Analyst Portfolio • Lee Ara</p>
+    </footer>
+
     <script>
         function navigateTo(viewId) {
-            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active', 'text-slate-900'));
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             document.getElementById('btn-' + viewId).classList.add('active');
             ['view-home', 'view-olist', 'view-tft'].forEach(id => document.getElementById(id).classList.add('hidden'));
             document.getElementById('view-' + viewId).classList.remove('hidden');
             if(viewId === 'olist') renderOlistChart();
             if(viewId === 'tft') renderTftChart();
+            window.scrollTo(0,0);
         }
 
         let olistChart, tftChart;
         function renderOlistChart() {
             if(olistChart) return;
-            const ctx = document.getElementById('olistChart').getContext('2d');
-            olistChart = new Chart(ctx, {
-                type: 'line', 
-                data: { 
-                    labels: ['1일','2일','3일','4일','5일','6일','7일+'], 
-                    datasets: [{ label: '긍정 리뷰 비율(%)', data: [95, 94, 92, 88, 45, 30, 20], borderColor: '#0d9488', tension: 0.4 }] 
-                }
+            olistChart = new Chart(document.getElementById('olistChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['1일', '2일', '3일', '4일', '5일', '6일', '7일+'],
+                    datasets: [{ label: '긍정 리뷰 비율 (%)', data: [95, 94, 92, 88, 45, 30, 20], borderColor: '#0d9488', tension: 0.4, fill: true, backgroundColor: 'rgba(13, 148, 136, 0.1)' }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { annotation: { annotations: { line1: { type: 'line', xMin: 3, xMax: 3, borderColor: 'red', borderWidth: 2, borderDash: [5, 5], label: { content: '4일 경과 시 급락', enabled: true, position: 'end' } } } } } }
             });
         }
         function renderTftChart() {
             if(tftChart) return;
-            const ctx = document.getElementById('tftChart').getContext('2d');
-            tftChart = new Chart(ctx, {
-                type: 'bubble', 
-                data: { 
-                    datasets: [{ label: 'Champions', data: [{x: 18, y: 54, r: 10}, {x: 4, y: 55, r: 7}, {x: 15, y: 53, r: 8}], backgroundColor: '#1e3a8a' }] 
-                }
+            tftChart = new Chart(document.getElementById('tftChart').getContext('2d'), {
+                type: 'bubble',
+                data: { datasets: [{ label: 'Champions', data: [{x: 18, y: 54, r: 10, label: 'Miss Fortune'}, {x: 4, y: 55, r: 7, label: 'Kassadin'}, {x: 15, y: 53, r: 8, label: 'Kayle'}], backgroundColor: '#1e3a8a' }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Pick Rate (%)' } }, y: { title: { display: true, text: 'Win Rate (%)' } } } }
             });
         }
+        document.addEventListener('DOMContentLoaded', () => navigateTo('home'));
     </script>
 </body>
 </html>
