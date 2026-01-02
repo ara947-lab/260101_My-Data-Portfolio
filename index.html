@@ -1,124 +1,192 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이아라 | Data Analysis Interactive Report</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1e3a8a',
-                        secondary: '#0d9488',
-                    },
-                    fontFamily: {
-                        sans: ['Pretendard', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
-        .chart-wrapper { position: relative; width: 100%; height: 300px; max-height: 400px; }
-        .nav-link.active { border-bottom: 2px solid #0d9488; color: #1e3a8a; font-weight: 700; }
-        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lee Ara | Data Analyst Portfolio</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#1e3a8a",
+            secondary: "#0d9488",
+          },
+          fontFamily: {
+            sans: ["Pretendard", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { background-color: #f8fafc; }
+    .chart-wrapper { position: relative; height: 320px; }
+  </style>
 </head>
-<body class="text-slate-800 flex flex-col min-h-screen">
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
-                <div class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center font-bold">A</div>
-                <span class="font-bold text-xl text-slate-900">Lee Ara</span>
-            </div>
-            <nav class="flex space-x-8">
-                <button onclick="navigateTo('home')" id="btn-home" class="nav-link px-1 py-2 text-sm font-medium active">Home</button>
-                <button onclick="navigateTo('olist')" id="btn-olist" class="nav-link px-1 py-2 text-sm font-medium">Olist Project</button>
-                <button onclick="navigateTo('tft')" id="btn-tft" class="nav-link px-1 py-2 text-sm font-medium">TFT Analysis</button>
-            </nav>
-        </div>
+
+<body class="font-sans text-slate-800">
+
+<!-- ================= HERO ================= -->
+<section class="min-h-screen flex flex-col justify-center items-center text-center px-6">
+  <h1 class="text-4xl md:text-5xl font-extrabold mb-6">
+    “이탈은 막는 것이 아니라,<br />
+    <span class="text-secondary">선택하는 것</span>입니다.”
+  </h1>
+
+  <p class="text-lg text-slate-600 max-w-2xl mb-10">
+    단순 현상 분석을 넘어,<br />
+    <b>언제 개입해야 하는가</b>에 답하는 데이터 분석을 합니다.
+  </p>
+
+  <div class="flex gap-4">
+    <a href="#olist" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold shadow">
+      심화 프로젝트 보기
+    </a>
+    <a href="#tft" class="bg-white border px-6 py-3 rounded-xl font-semibold">
+      기초 프로젝트 보기
+    </a>
+  </div>
+</section>
+
+<!-- ================= OLIST ================= -->
+<section id="olist" class="max-w-6xl mx-auto px-6 py-20 space-y-10">
+  <header class="space-y-3">
+    <h2 class="text-3xl font-bold">Olist 이커머스 판매자 이탈 리스크 모니터링</h2>
+    <p class="text-slate-600">
+      초기 6개월 행동 데이터를 기반으로<br />
+      <b>이탈 직전이 아닌, 개입 가능한 시점</b>을 식별한 운영형 분석
+    </p>
+  </header>
+
+  <!-- KPI -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white p-5 rounded-xl shadow text-center">
+      <p class="text-sm text-slate-500">데이터 용량 감소</p>
+      <p class="text-2xl font-bold text-primary">98%</p>
+    </div>
+    <div class="bg-white p-5 rounded-xl shadow text-center">
+      <p class="text-sm text-slate-500">1년 내 이탈률</p>
+      <p class="text-2xl font-bold text-red-500">82.5%</p>
+    </div>
+    <div class="bg-white p-5 rounded-xl shadow text-center">
+      <p class="text-sm text-slate-500">배송 지연 임계점</p>
+      <p class="text-2xl font-bold">4일</p>
+    </div>
+    <div class="bg-white p-5 rounded-xl shadow text-center">
+      <p class="text-sm text-slate-500">Model Recall</p>
+      <p class="text-2xl font-bold text-secondary">86%</p>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="bg-white p-6 rounded-xl shadow">
+    <h3 class="font-bold mb-4">📉 배송 지연과 긍정 리뷰 비율</h3>
+    <div class="chart-wrapper">
+      <canvas id="olistChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TFT ================= -->
+<section id="tft" class="bg-slate-50 py-20">
+  <div class="max-w-6xl mx-auto px-6 space-y-10">
+    <header class="space-y-3">
+      <h2 class="text-3xl font-bold">TFT 시즌3 메타 변동성 분석</h2>
+      <p class="text-slate-600">
+        시너지보다 <b>챔피언 단일 파워</b>가 메타를 지배함을 데이터로 검증
+      </p>
     </header>
 
-    <main class="flex-grow container mx-auto px-4 py-8">
-        <div id="view-home" class="animate-fade-in text-center max-w-3xl mx-auto mt-12 mb-16">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">"이탈은 막는 것이 아니라,<br><span class="text-secondary">선택하는 것</span>입니다."</h1>
-            <p class="text-lg text-slate-600 mb-8">데이터 시각화와 논리적 가설 검증을 통해 실질적인 비즈니스 임팩트를 만들어냅니다.</p>
-            <div class="flex justify-center gap-4">
-                <button onclick="navigateTo('olist')" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold shadow-lg">심화 프로젝트 보기</button>
-                <button onclick="navigateTo('tft')" class="bg-white text-slate-700 border px-6 py-3 rounded-xl font-semibold">기초 프로젝트 보기</button>
-            </div>
-        </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+      <h3 class="font-bold mb-4">📊 승률 vs 픽률 (Bubble Chart)</h3>
+      <div class="chart-wrapper">
+        <canvas id="tftChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div id="view-olist" class="hidden animate-fade-in space-y-8">
-            <div class="border-b pb-6">
-                <h2 class="text-3xl font-bold">Olist 이커머스 판매자 이탈 리스크 모니터링</h2>
-                <p class="text-slate-600 mt-2">데이터 전처리를 통해 용량을 98% 줄여 구현한 실시간 분석 대시보드입니다.</p>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                <h3 class="font-bold mb-4">📉 배송 지연과 평판의 관계 (임계점 분석)</h3>
-                <div class="chart-wrapper"><canvas id="olistChart"></canvas></div>
-            </div>
-        </div>
+<!-- ================= FOOTER ================= -->
+<footer class="py-10 text-center text-slate-500 text-sm">
+  Data Analyst Portfolio · Lee Ara
+</footer>
 
-        <div id="view-tft" class="hidden animate-fade-in space-y-8">
-            <div class="border-b pb-6">
-                <h2 class="text-3xl font-bold">TFT 시즌3 메타 변동성 분석</h2>
-                <p class="text-slate-600 mt-2">챔피언 파워가 시너지보다 승률에 미치는 영향이 큼을 통계적으로 입증했습니다.</p>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                <h3 class="font-bold mb-4">📊 Meta Analysis: 승률 vs 픽률</h3>
-                <div class="chart-wrapper"><canvas id="tftChart"></canvas></div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="bg-white border-t py-8 mt-auto text-center">
-        <p class="text-slate-500 text-sm">Data Analyst Portfolio • Lee Ara</p>
-    </footer>
-
-    <script>
-        function navigateTo(viewId) {
-            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            document.getElementById('btn-' + viewId).classList.add('active');
-            ['view-home', 'view-olist', 'view-tft'].forEach(id => document.getElementById(id).classList.add('hidden'));
-            document.getElementById('view-' + viewId).classList.remove('hidden');
-            if(viewId === 'olist') renderOlistChart();
-            if(viewId === 'tft') renderTftChart();
-            window.scrollTo(0,0);
+<script>
+/* OLIST CHART */
+new Chart(document.getElementById("olistChart"), {
+  type: "line",
+  data: {
+    labels: ["1일", "2일", "3일", "4일", "5일", "6일", "7일+"],
+    datasets: [{
+      label: "긍정 리뷰 비율 (%)",
+      data: [95, 94, 92, 88, 45, 30, 20],
+      borderColor: "#0d9488",
+      backgroundColor: "rgba(13,148,136,0.15)",
+      fill: true,
+      tension: 0.4
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      annotation: {
+        annotations: {
+          threshold: {
+            type: "line",
+            xMin: 3,
+            xMax: 3,
+            borderColor: "red",
+            borderWidth: 2,
+            borderDash: [6,6],
+            label: {
+              content: "4일 초과 시 급락",
+              enabled: true
+            }
+          }
         }
+      }
+    }
+  }
+});
 
-        let olistChart, tftChart;
-        function renderOlistChart() {
-            if(olistChart) return;
-            olistChart = new Chart(document.getElementById('olistChart').getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels: ['1일', '2일', '3일', '4일', '5일', '6일', '7일+'],
-                    datasets: [{ label: '긍정 리뷰 비율 (%)', data: [95, 94, 92, 88, 45, 30, 20], borderColor: '#0d9488', tension: 0.4, fill: true, backgroundColor: 'rgba(13, 148, 136, 0.1)' }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { annotation: { annotations: { line1: { type: 'line', xMin: 3, xMax: 3, borderColor: 'red', borderWidth: 2, borderDash: [5, 5], label: { content: '4일 경과 시 급락', enabled: true, position: 'end' } } } } } }
-            });
-        }
-        function renderTftChart() {
-            if(tftChart) return;
-            tftChart = new Chart(document.getElementById('tftChart').getContext('2d'), {
-                type: 'bubble',
-                data: { datasets: [{ label: 'Champions', data: [{x: 18, y: 54, r: 10, label: 'Miss Fortune'}, {x: 4, y: 55, r: 7, label: 'Kassadin'}, {x: 15, y: 53, r: 8, label: 'Kayle'}], backgroundColor: '#1e3a8a' }] },
-                options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Pick Rate (%)' } }, y: { title: { display: true, text: 'Win Rate (%)' } } } }
-            });
-        }
-        document.addEventListener('DOMContentLoaded', () => navigateTo('home'));
-    </script>
+/* TFT CHART */
+new Chart(document.getElementById("tftChart"), {
+  type: "bubble",
+  data: {
+    datasets: [{
+      label: "Champions",
+      data: [
+        { x: 18, y: 54, r: 10 },
+        { x: 4, y: 55, r: 7 },
+        { x: 15, y: 53, r: 8 }
+      ],
+      backgroundColor: "#1e3a8a"
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { title: { display: true, text: "Pick Rate (%)" }},
+      y: { title: { display: true, text: "Win Rate (%)" }}
+    }
+  }
+});
+</script>
+
 </body>
 </html>
-
-Fix Chart.js compatibility and finalize portfolio
-
