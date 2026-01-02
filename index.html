@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
         .chart-wrapper { position: relative; width: 100%; height: 300px; }
@@ -21,7 +21,7 @@
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
-                <div class="w-8 h-8 bg-blue-900 text-white rounded-lg flex items-center justify-center font-bold">A</div>
+                <div class="w-8 h-8 bg-[#1e3a8a] text-white rounded-lg flex items-center justify-center font-bold">A</div>
                 <span class="font-bold text-xl text-slate-900">Lee Ara</span>
             </div>
             <nav class="flex space-x-6">
@@ -32,24 +32,28 @@
         </div>
     </header>
 
-    <main id="app-container" class="flex-grow container mx-auto px-4 py-8">
-        <div id="view-home" class="animate-fade-in text-center mt-12">
-            <h1 class="text-4xl font-extrabold text-slate-900 mb-6">"이탈은 막는 것이 아니라, <span class="text-teal-600">선택하는 것</span>입니다."</h1>
-            <p class="text-lg text-slate-600 mb-8">데이터 시각화와 논리적 가설 검증을 통해 실질적인 비즈니스 임팩트를 만듭니다.</p>
+    <main id="app-container" class="flex-grow container mx-auto px-4 py-12">
+        <div id="view-home" class="animate-fade-in text-center max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">"이탈은 막는 것이 아니라,<br><span class="text-[#0d9488]">선택하는 것</span>입니다."</h1>
+            <p class="text-lg text-slate-600 mb-8">단순한 현상 분석을 넘어 비즈니스 임팩트를 만듭니다.</p>
             <div class="flex justify-center gap-4">
-                <button onclick="navigateTo('olist')" class="bg-blue-900 text-white px-6 py-3 rounded-xl font-semibold">심화 프로젝트</button>
-                <button onclick="navigateTo('tft')" class="bg-white text-slate-700 border px-6 py-3 rounded-xl font-semibold">기초 프로젝트</button>
+                <button onclick="navigateTo('olist')" class="bg-[#1e3a8a] text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-900 transition shadow-lg">심화 프로젝트 보기</button>
+                <button onclick="navigateTo('tft')" class="bg-white text-slate-700 border border-slate-300 px-6 py-3 rounded-xl font-semibold hover:bg-slate-50 transition">기초 프로젝트 보기</button>
             </div>
         </div>
 
-        <div id="view-olist" class="hidden animate-fade-in">
-            <h2 class="text-2xl font-bold mb-4">Olist 판매자 이탈 리스크 모니터링</h2>
-            <div class="bg-white p-6 rounded-xl border chart-wrapper"><canvas id="olistChart"></canvas></div>
+        <div id="view-olist" class="hidden animate-fade-in space-y-6">
+            <h2 class="text-3xl font-bold text-slate-900">Olist 판매자 이탈 리스크 모니터링</h2>
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <div class="chart-wrapper"><canvas id="olistChart"></canvas></div>
+            </div>
         </div>
 
-        <div id="view-tft" class="hidden animate-fade-in">
-            <h2 class="text-2xl font-bold mb-4">TFT 메타 승률 분석</h2>
-            <div class="bg-white p-6 rounded-xl border chart-wrapper"><canvas id="tftChart"></canvas></div>
+        <div id="view-tft" class="hidden animate-fade-in space-y-6">
+            <h2 class="text-3xl font-bold text-slate-900">TFT 메타 승률 분석</h2>
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <div class="chart-wrapper"><canvas id="tftChart"></canvas></div>
+            </div>
         </div>
     </main>
 
@@ -66,14 +70,23 @@
         let olistChart, tftChart;
         function renderOlistChart() {
             if(olistChart) return;
-            olistChart = new Chart(document.getElementById('olistChart'), {
-                type: 'line', data: { labels: ['1일','2일','3일','4일','5일'], datasets: [{ label: '긍정리뷰(%)', data: [95, 92, 88, 45, 30], borderColor: '#0d9488' }] }
+            const ctx = document.getElementById('olistChart').getContext('2d');
+            olistChart = new Chart(ctx, {
+                type: 'line', 
+                data: { 
+                    labels: ['1일','2일','3일','4일','5일','6일','7일+'], 
+                    datasets: [{ label: '긍정 리뷰 비율(%)', data: [95, 94, 92, 88, 45, 30, 20], borderColor: '#0d9488', tension: 0.4 }] 
+                }
             });
         }
         function renderTftChart() {
             if(tftChart) return;
-            tftChart = new Chart(document.getElementById('tftChart'), {
-                type: 'bubble', data: { datasets: [{ label: 'Champions', data: [{x: 18, y: 54, r: 10}, {x: 4, y: 55, r: 7}], backgroundColor: '#1e3a8a' }] }
+            const ctx = document.getElementById('tftChart').getContext('2d');
+            tftChart = new Chart(ctx, {
+                type: 'bubble', 
+                data: { 
+                    datasets: [{ label: 'Champions', data: [{x: 18, y: 54, r: 10}, {x: 4, y: 55, r: 7}, {x: 15, y: 53, r: 8}], backgroundColor: '#1e3a8a' }] 
+                }
             });
         }
     </script>
