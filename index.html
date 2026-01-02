@@ -11,9 +11,6 @@
   <!-- Chart.js (순서 중요) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
-  <script>
-    Chart.register(window['chartjs-plugin-annotation']);
-  </script>
 
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -42,16 +39,16 @@
 
 <body class="font-sans text-slate-800">
 
-<!-- HERO -->
 <section class="min-h-screen flex flex-col justify-center items-center text-center px-6">
   <h1 class="text-4xl md:text-5xl font-extrabold mb-6">
     “이탈은 막는 것이 아니라,<br />
     <span class="text-secondary">선택하는 것</span>입니다.”
   </h1>
+
   <p class="text-lg text-slate-600 max-w-2xl mb-10">
-    단순 현상 분석을 넘어,<br />
-    <b>언제 개입해야 하는가</b>에 답하는 데이터 분석
+    언제 개입해야 하는가에 답하는 데이터 분석
   </p>
+
   <div class="flex gap-4">
     <a href="#olist" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold">심화 프로젝트</a>
     <a href="#tft" class="bg-white border px-6 py-3 rounded-xl font-semibold">기초 프로젝트</a>
@@ -59,30 +56,10 @@
 </section>
 
 <!-- OLIST -->
-<section id="olist" class="max-w-6xl mx-auto px-6 py-20 space-y-10">
-  <h2 class="text-3xl font-bold">Olist 판매자 이탈 리스크 모니터링</h2>
-
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    <div class="bg-white p-5 rounded-xl shadow text-center">
-      <p class="text-sm text-slate-500">데이터 용량 감소</p>
-      <p class="text-2xl font-bold text-primary">98%</p>
-    </div>
-    <div class="bg-white p-5 rounded-xl shadow text-center">
-      <p class="text-sm text-slate-500">1년 내 이탈률</p>
-      <p class="text-2xl font-bold text-red-500">82.5%</p>
-    </div>
-    <div class="bg-white p-5 rounded-xl shadow text-center">
-      <p class="text-sm text-slate-500">배송 임계점</p>
-      <p class="text-2xl font-bold">4일</p>
-    </div>
-    <div class="bg-white p-5 rounded-xl shadow text-center">
-      <p class="text-sm text-slate-500">Model Recall</p>
-      <p class="text-2xl font-bold text-secondary">86%</p>
-    </div>
-  </div>
+<section id="olist" class="max-w-6xl mx-auto px-6 py-20 space-y-8">
+  <h2 class="text-3xl font-bold">Olist 판매자 이탈 리스크</h2>
 
   <div class="bg-white p-6 rounded-xl shadow">
-    <h3 class="font-bold mb-4">배송 지연 vs 긍정 리뷰</h3>
     <div class="chart-wrapper">
       <canvas id="olistChart"></canvas>
     </div>
@@ -91,10 +68,10 @@
 
 <!-- TFT -->
 <section id="tft" class="bg-slate-50 py-20">
-  <div class="max-w-6xl mx-auto px-6 space-y-10">
+  <div class="max-w-6xl mx-auto px-6 space-y-8">
     <h2 class="text-3xl font-bold">TFT 시즌3 메타 분석</h2>
+
     <div class="bg-white p-6 rounded-xl shadow">
-      <h3 class="font-bold mb-4">승률 vs 픽률</h3>
       <div class="chart-wrapper">
         <canvas id="tftChart"></canvas>
       </div>
@@ -107,65 +84,69 @@
 </footer>
 
 <script>
-/* OLIST */
-new Chart(document.getElementById("olistChart"), {
-  type: "line",
-  data: {
-    labels: ["1일","2일","3일","4일","5일","6일","7일+"],
-    datasets: [{
-      data: [95,94,92,88,45,30,20],
-      borderColor: "#0d9488",
-      backgroundColor: "rgba(13,148,136,0.15)",
-      fill: true,
-      tension: 0.4
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      annotation: {
-        annotations: {
-          limit: {
-            type: "line",
-            xMin: 3,
-            xMax: 3,
-            borderColor: "red",
-            borderDash: [6,6],
-            borderWidth: 2,
-            label: {
-              content: "4일 초과",
-              enabled: true
+  // 🔑 annotation 등록 (여기!)
+  Chart.register(window['chartjs-plugin-annotation']);
+
+  // OLIST
+  new Chart(document.getElementById("olistChart"), {
+    type: "line",
+    data: {
+      labels: ["1일", "2일", "3일", "4일", "5일", "6일", "7일+"],
+      datasets: [{
+        label: "긍정 리뷰 비율 (%)",
+        data: [95, 94, 92, 88, 45, 30, 20],
+        borderColor: "#0d9488",
+        backgroundColor: "rgba(13,148,136,0.15)",
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        annotation: {
+          annotations: {
+            threshold: {
+              type: "line",
+              xMin: 3,
+              xMax: 3,
+              borderColor: "red",
+              borderDash: [6,6],
+              label: {
+                content: "4일 초과 시 급락",
+                enabled: true
+              }
             }
           }
         }
       }
     }
-  }
-});
+  });
 
-/* TFT */
-new Chart(document.getElementById("tftChart"), {
-  type: "bubble",
-  data: {
-    datasets: [{
-      data: [
-        {x:18,y:54,r:10},
-        {x:4,y:55,r:7},
-        {x:15,y:53,r:8}
-      ],
-      backgroundColor: "#1e3a8a"
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: { title: { display: true, text: "Pick Rate (%)" }},
-      y: { title: { display: true, text: "Win Rate (%)" }}
+  // TFT
+  new Chart(document.getElementById("tftChart"), {
+    type: "bubble",
+    data: {
+      datasets: [{
+        label: "Champions",
+        data: [
+          { x: 18, y: 54, r: 10 },
+          { x: 4, y: 55, r: 7 },
+          { x: 15, y: 53, r: 8 }
+        ],
+        backgroundColor: "#1e3a8a"
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { title: { display: true, text: "Pick Rate (%)" }},
+        y: { title: { display: true, text: "Win Rate (%)" }}
+      }
     }
-  }
-});
+  });
 </script>
 
 </body>
