@@ -7,5 +7,75 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
-    </head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
+        .chart-wrapper { position: relative; width: 100%; height: 300px; }
+        .nav-link.active { border-bottom: 2px solid #0d9488; color: #1e3a8a; font-weight: 700; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen">
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="w-8 h-8 bg-blue-900 text-white rounded-lg flex items-center justify-center font-bold">A</div>
+                <span class="font-bold text-xl text-slate-900">Lee Ara</span>
+            </div>
+            <nav class="flex space-x-6">
+                <button onclick="navigateTo('home')" id="btn-home" class="nav-link text-sm active">Home</button>
+                <button onclick="navigateTo('olist')" id="btn-olist" class="nav-link text-sm text-slate-500">Olist Project</button>
+                <button onclick="navigateTo('tft')" id="btn-tft" class="nav-link text-sm text-slate-500">TFT Analysis</button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="app-container" class="flex-grow container mx-auto px-4 py-8">
+        <div id="view-home" class="animate-fade-in text-center mt-12">
+            <h1 class="text-4xl font-extrabold text-slate-900 mb-6">"이탈은 막는 것이 아니라, <span class="text-teal-600">선택하는 것</span>입니다."</h1>
+            <p class="text-lg text-slate-600 mb-8">데이터 시각화와 논리적 가설 검증을 통해 실질적인 비즈니스 임팩트를 만듭니다.</p>
+            <div class="flex justify-center gap-4">
+                <button onclick="navigateTo('olist')" class="bg-blue-900 text-white px-6 py-3 rounded-xl font-semibold">심화 프로젝트</button>
+                <button onclick="navigateTo('tft')" class="bg-white text-slate-700 border px-6 py-3 rounded-xl font-semibold">기초 프로젝트</button>
+            </div>
+        </div>
+
+        <div id="view-olist" class="hidden animate-fade-in">
+            <h2 class="text-2xl font-bold mb-4">Olist 판매자 이탈 리스크 모니터링</h2>
+            <div class="bg-white p-6 rounded-xl border chart-wrapper"><canvas id="olistChart"></canvas></div>
+        </div>
+
+        <div id="view-tft" class="hidden animate-fade-in">
+            <h2 class="text-2xl font-bold mb-4">TFT 메타 승률 분석</h2>
+            <div class="bg-white p-6 rounded-xl border chart-wrapper"><canvas id="tftChart"></canvas></div>
+        </div>
+    </main>
+
+    <script>
+        function navigateTo(viewId) {
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active', 'text-slate-900'));
+            document.getElementById('btn-' + viewId).classList.add('active');
+            ['view-home', 'view-olist', 'view-tft'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById('view-' + viewId).classList.remove('hidden');
+            if(viewId === 'olist') renderOlistChart();
+            if(viewId === 'tft') renderTftChart();
+        }
+
+        let olistChart, tftChart;
+        function renderOlistChart() {
+            if(olistChart) return;
+            olistChart = new Chart(document.getElementById('olistChart'), {
+                type: 'line', data: { labels: ['1일','2일','3일','4일','5일'], datasets: [{ label: '긍정리뷰(%)', data: [95, 92, 88, 45, 30], borderColor: '#0d9488' }] }
+            });
+        }
+        function renderTftChart() {
+            if(tftChart) return;
+            tftChart = new Chart(document.getElementById('tftChart'), {
+                type: 'bubble', data: { datasets: [{ label: 'Champions', data: [{x: 18, y: 54, r: 10}, {x: 4, y: 55, r: 7}], backgroundColor: '#1e3a8a' }] }
+            });
+        }
+    </script>
+</body>
 </html>
